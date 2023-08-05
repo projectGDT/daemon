@@ -1,6 +1,6 @@
 <!-- common contents -->
 
-<div style="text-align: center">
+<div align="center">
     <img width="160" src="logo.svg" alt="logo"><br/>
     projectGDT - for a more connected Minecraft world!<br/>
     QQ Group:
