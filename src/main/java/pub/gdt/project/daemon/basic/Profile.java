@@ -8,24 +8,7 @@ import java.util.Optional;
 
 public interface Profile extends JsonSerializable {
     enum Type {
-        // also in resources/sql/initialize.sql
-        JAVA_MICROSOFT("Java 版 - 正版"),
-        JAVA_LITTLE_SKIN("Java 版 - LittleSkin 外置"),
-
-        // Unimplemented
-        // JAVA_NIDE8("Java 版 - 统一通行证"),
-        OFFLINE("Java 版 - 离线"),
-        BEDROCK("基岩版 - XBOX LIVE");
-        private final String value;
-        Type(String value) { this.value = value; }
-        public static JsonElement serializeTypeEnum() {
-            return new JsonObjectBuilder()
-                    .applyOperation(builder -> {
-                        for (Type type : Type.values())
-                            builder.property(type.name(), type.value);
-                        return builder;
-                    }).build();
-        }
+        JAVA_MICROSOFT, JAVA_LITTLE_SKIN, OFFLINE, BEDROCK
     }
 
     Type getType();

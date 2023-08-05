@@ -7,17 +7,7 @@ import pub.gdt.project.daemon.util.JsonObjectBuilder;
 
 public final class MinecraftVersion implements Comparable<MinecraftVersion>, JsonSerializable {
     public enum Edition {
-        JAVA("Java 版"), BEDROCK("基岩版");
-        private final String value;
-        Edition(String value) { this.value = value; }
-        public static JsonElement serializeTypeEnum() {
-            return new JsonObjectBuilder()
-                    .applyOperation(builder -> {
-                        for (Edition entry : Edition.values())
-                            builder.property(entry.name(), entry.value);
-                        return builder;
-                    }).build();
-        }
+        JAVA, BEDROCK
     }
 
     final Edition edition;

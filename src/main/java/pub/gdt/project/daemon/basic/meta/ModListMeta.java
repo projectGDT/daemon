@@ -8,17 +8,7 @@ import java.time.Instant;
 
 public interface ModListMeta extends JsonSerializable {
     enum Type {
-        MODRINTH_PACK("Modrinth 整合包");
-        private final String value;
-        Type(String value) { this.value = value; }
-        public static JsonElement serializeTypeEnum() {
-            return new JsonObjectBuilder()
-                    .applyOperation(builder -> {
-                        for (Type type : Type.values())
-                            builder.property(type.name(), type.value);
-                        return builder;
-                    }).build();
-        }
+        MODRINTH_PACK
     }
     Type getType();
     Instant updatedAt();
