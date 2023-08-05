@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import pub.gdt.project.daemon.basic.JsonSerializable;
 import pub.gdt.project.daemon.util.JsonObjectBuilder;
 
-public class OAuth2Exception extends Exception implements JsonSerializable {
+public final class OAuth2Exception extends Exception implements JsonSerializable {
 
     private final String authServer;
     public OAuth2Exception(String authServer, String message) {
