@@ -12,7 +12,6 @@ repositories {
 }
 
 dependencies {
-    implementation("javax.servlet:javax.servlet-api:4.0.1")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.jetbrains:annotations:24.0.1")
     implementation("org.java-websocket:Java-WebSocket:1.5.4")
