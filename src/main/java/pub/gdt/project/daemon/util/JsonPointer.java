@@ -37,4 +37,8 @@ public class JsonPointer {
             return result;
         }
     }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
 }
