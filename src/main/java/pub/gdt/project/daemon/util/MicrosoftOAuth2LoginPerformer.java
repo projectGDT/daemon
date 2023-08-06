@@ -94,7 +94,7 @@ public final class MicrosoftOAuth2LoginPerformer {
                 accessToken = POINTER_CODE2TOKEN_ACCESS_TOKEN.find(code2tokenResponse.body()).getAsString();
                 refreshToken = POINTER_CODE2TOKEN_REFRESH_TOKEN.find(code2tokenResponse.body()).getAsString();
             } catch (NullPointerException | IllegalStateException e) {
-                throw new MicrosoftOAuth2Exception("Invalid server response", e, MicrosoftOAuth2Exception.ErrorStep.XBL_AUTH);
+                throw new MicrosoftOAuth2Exception("Invalid server response", e, MicrosoftOAuth2Exception.ErrorStep.CODE2TOKEN);
             }
 
             // Step 2: XBL Authentication
