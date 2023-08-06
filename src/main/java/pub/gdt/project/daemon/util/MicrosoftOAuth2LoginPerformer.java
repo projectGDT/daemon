@@ -106,6 +106,15 @@ public final class MicrosoftOAuth2LoginPerformer {
                                     .property("AuthMethod", "RPS")
                                     .property("SiteName", "user.auth.xboxlive.com")
                                     .property("RpsTicket", "t=" + accessToken)
+                            // Here I have to blame the tutorial on Minecraft Wiki (zh).
+                            // What I initially referred to is:
+                            // https://minecraft.fandom.com/zh/wiki/%E6%95%99%E7%A8%8B/%E7%BC%96%E5%86%99%E5%90%AF%E5%8A%A8%E5%99%A8
+                            // In this page, when it comes to XBL Authentication,
+                            // The value of node "/Properties/RpsTicket" appears to be "d=" + token.
+                            // When I did as it told, I got a 400 error.
+                            // After two days' research, I finally found the answer.
+                            // "RpsTicket", when the request is called in an Azure session, should start with "d=".
+                            // Otherwise, it should start with "t=".
                                     .close()
                             .property("RelyingParty", "http://auth.xboxlive.com")
                             .property("TokenType", "JWT")
