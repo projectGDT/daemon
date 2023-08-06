@@ -1,19 +1,27 @@
 package pub.gdt.project.daemon.event.bot;
 
-public final class MemberJoinRequestEvent extends BotEvent {
-    private final long applicantQQ, groupId;
+import pub.gdt.project.daemon.bot.Bot;
+
+public final class MemberJoinRequestEvent extends GroupEvent {
+    public static final int RESPONSE_ACCEPT = 0;
+    public static final int RESPONSE_REJECT = 1;
+
+    private final long fromId;
     
-    public MemberJoinRequestEvent(Bot source, long internalEventId, long applicantQQ, long groupId) {
-        super(source, internalEventId);
-        this.applicantQQ = applicantQQ;
-        this.groupId = groupId;
+    public MemberJoinRequestEvent(Bot source, long internalEventId, long groupId, long fromId) {
+        super(source, internalEventId, groupId);
+        this.fromId = fromId;
     }
 
-    public long getApplicantQQ() {
-        return applicantQQ;
+    public long getFromId() {
+        return fromId;
     }
 
-    public long getGroupId() {
-        return groupId;
+    public void accept() {
+        getSource().acceptMemberJoinRequest(this);
+    }
+
+    public void reject(String message) {
+        getSource().rejectMemberJoinRequest(this, message);
     }
 }
