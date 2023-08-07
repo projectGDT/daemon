@@ -1,6 +1,7 @@
 package pub.gdt.project.daemon.bot;
 
 import pub.gdt.project.daemon.basic.Server;
+import pub.gdt.project.daemon.event.bot.BotInvitedJoinGroupRequestEvent;
 import pub.gdt.project.daemon.event.bot.MemberJoinRequestEvent;
 import pub.gdt.project.daemon.event.bot.NewFriendRequestEvent;
 
@@ -14,6 +15,8 @@ public interface Bot {
     void rejectNewFriendRequest(NewFriendRequestEvent event, String message);
     void acceptMemberJoinRequest(MemberJoinRequestEvent event);
     void rejectMemberJoinRequest(MemberJoinRequestEvent event, String message);
+    void acceptGroupInvitation(BotInvitedJoinGroupRequestEvent event);
+    void rejectGroupInvitation(BotInvitedJoinGroupRequestEvent event);
 
     default void sendMessageToServerGroup(Server server, MessageChain messageChain) {
         sendGroupMessage(server.getGroupId(), messageChain);
