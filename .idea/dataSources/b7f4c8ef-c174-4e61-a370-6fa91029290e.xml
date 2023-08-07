@@ -1,31 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="gdt@localhost">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.48">
-    <root id="1">
-      <DefaultCasing>lower/lower</DefaultCasing>
-      <DefaultEngine>InnoDB</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>gdt|schema||gdt|localhost|ALTER|G
-gdt|schema||gdt|localhost|ALTER ROUTINE|G
-gdt|schema||gdt|localhost|CREATE|G
-gdt|schema||gdt|localhost|CREATE ROUTINE|G
-gdt|schema||gdt|localhost|CREATE TEMPORARY TABLES|G
-gdt|schema||gdt|localhost|CREATE VIEW|G
-gdt|schema||gdt|localhost|DELETE|G
-gdt|schema||gdt|localhost|DROP|G
-gdt|schema||gdt|localhost|EVENT|G
-gdt|schema||gdt|localhost|EXECUTE|G
-gdt|schema||gdt|localhost|INDEX|G
-gdt|schema||gdt|localhost|INSERT|G
-gdt|schema||gdt|localhost|LOCK TABLES|G
-gdt|schema||gdt|localhost|REFERENCES|G
-gdt|schema||gdt|localhost|SELECT|G
-gdt|schema||gdt|localhost|SHOW VIEW|G
-gdt|schema||gdt|localhost|TRIGGER|G
-gdt|schema||gdt|localhost|UPDATE|G
-gdt|schema||gdt|localhost|grant option|G</Grants>
-      <ServerVersion>8.1.0</ServerVersion>
-    </root>
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
+    <root id="1"/>
     <collation id="2" parent="1" name="armscii8_general_ci">
       <Charset>armscii8</Charset>
       <DefaultForCharset>1</DefaultForCharset>
