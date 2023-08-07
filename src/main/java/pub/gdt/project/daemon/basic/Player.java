@@ -43,7 +43,7 @@ public interface Player extends JsonSerializable {
         return getProfiles().anyMatch(profile -> profile.getCurrentServer().isPresent());
     }
 
-    Stream<ServerApplyingSession> getApplyingSessions();
+    Stream<PlayerApplyingSession> getApplyingSessions();
 
     default JsonElement serializeSimple() {
         return new JsonObjectBuilder()

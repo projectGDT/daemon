@@ -48,10 +48,10 @@ public interface Server extends JsonSerializable {
     Stream<ServerTag> getTags();
 
     // Applying
-    default ServerApplyingManager.Type getApplyingType() {
+    default PlayerApplyingManager.Type getApplyingType() {
         return getApplyingManager().getApplyingType();
     }
-    ServerApplyingManager getApplyingManager();
+    PlayerApplyingManager getApplyingManager();
 
     // Status
     ServerStatusManager getStatusManager();

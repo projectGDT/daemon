@@ -6,7 +6,7 @@ import pub.gdt.project.daemon.util.JsonObjectBuilder;
 import java.time.Instant;
 import java.util.Optional;
 
-public interface ServerApplyingSession extends JsonSerializable {
+public interface PlayerApplyingSession extends JsonSerializable {
     Instant createdAt();
     Player getSource();
     Server getTarget();

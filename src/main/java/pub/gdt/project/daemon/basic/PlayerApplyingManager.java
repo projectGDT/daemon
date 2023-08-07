@@ -4,17 +4,17 @@ import com.google.gson.JsonElement;
 
 import java.util.stream.Stream;
 
-public interface ServerApplyingManager {
+public interface PlayerApplyingManager {
     enum Type {
         NOT_NEEDED, BY_PLAYER_META_ONLY, BY_MESSAGE, BY_FORM
     }
     Type getApplyingType();
-    ServerApplyingSession createSession(Player source, JsonElement message);
-    Stream<ServerApplyingSession> getOngoingSessions();
+    PlayerApplyingSession createSession(Player source, JsonElement message);
+    Stream<PlayerApplyingSession> getOngoingSessions();
     boolean hasApplyingSession(Player player);
-    ServerApplyingSession getSession(Player source);
+    PlayerApplyingSession getSession(Player source);
 
-    /* default ServerApplyingSession createSession(Player source, JsonElement message) {
+    /* default PlayerApplyingSession createSession(Player source, JsonElement message) {
         try {
             JsonObject jsonObject = message.getAsJsonObject();
             String typeString = Objects.requireNonNull(jsonObject.get("type")).getAsString();
