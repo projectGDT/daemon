@@ -23,8 +23,12 @@ public final class EventChannel {
                 // fire events
                 for (EventListener listener : eventListenerMap.get((Class<? extends Event<?>>) event.getClass())) {
                     // Here we are sure that the consumer here accepts the event of this type
-                    EventListeningStatus status = (EventListeningStatus) listener.apply(event);
-                    if (status == EventListeningStatus.STOP) eventListenerMap.remove(event.getClass(), listener);
+                    try {
+                        EventListeningStatus status = (EventListeningStatus) listener.apply(event);
+                        if (status == EventListeningStatus.STOP) eventListenerMap.remove(event.getClass(), listener);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (InterruptedException ignored) {}

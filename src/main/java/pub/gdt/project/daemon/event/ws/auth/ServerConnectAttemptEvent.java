@@ -1,4 +1,4 @@
-package pub.gdt.project.daemon.event.auth;
+package pub.gdt.project.daemon.event.ws.auth;
 
 import org.java_websocket.WebSocket;
 

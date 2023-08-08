@@ -2,6 +2,9 @@ package pub.gdt.project.daemon;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import de.rtner.security.auth.spi.SimplePBKDF2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pub.gdt.project.daemon.event.EventChannel;
 import pub.gdt.project.daemon.util.Resources;
 
@@ -10,26 +13,28 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Base64;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class DaemonMain {
-    private static final String RSA_ALGORITHM = "RSA";
-    private static final int KEY_SIZE = 256;
     private static final String DEFAULT_DATABASE_PROPERTIES_DIR = "database.properties";
 
-    private static final Logger mainLogger = Logger.getLogger(DaemonMain.class.getName());
+    private static final Logger mainLogger = LoggerFactory.getLogger(DaemonMain.class);
 
+    // RSA Constants
+    private static final String RSA_ALGORITHM = "RSA";
+    private static final int KEY_SIZE = 512;
     private static Cipher decryptionCipher;
     private static String publicKeyString;
+
+    // PBKDF2 Constants
+    private static final SimplePBKDF2 pbkdf2 = new SimplePBKDF2();
 
     private static Connection connection;
 
@@ -39,38 +44,13 @@ public class DaemonMain {
                    ClassNotFoundException, NoSuchPaddingException, InvalidKeyException {
         // Initialize RSA Decryption
         mainLogger.info("Initializing RSA Decryption...");
-        Path encrytionDir = Path.of("encryption");
-        Path publicKeyPath = encrytionDir.resolve("public.key"),
-             privateKeyPath = encrytionDir.resolve("private.key");
-        PublicKey rsaPublicKey;
-        PrivateKey rsaPrivateKey;
-
-        if (Files.notExists(encrytionDir)) Files.createDirectory(encrytionDir);
-        if (Files.notExists(publicKeyPath) | Files.notExists(privateKeyPath)) {
-            // Generate new key pair
-            mainLogger.info("public.key & private.key not found. Generating...");
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA_ALGORITHM);
-            keyPairGenerator.initialize(KEY_SIZE, new SecureRandom());
-            KeyPair keyPair = keyPairGenerator.generateKeyPair();
-            rsaPublicKey = keyPair.getPublic();
-            rsaPrivateKey = keyPair.getPrivate();
-            try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(publicKeyPath))) {
-                out.writeObject(rsaPublicKey);
-            }
-            try (ObjectOutputStream out = new ObjectOutputStream(Files.newOutputStream(privateKeyPath))) {
-                out.writeObject(rsaPrivateKey);
-            }
-        } else {
-            // Read key pair from file
-            try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(publicKeyPath))) {
-                rsaPublicKey = (PublicKey) in.readObject();
-            }
-            try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(privateKeyPath))) {
-                rsaPrivateKey = (PrivateKey) in.readObject();
-            }
-        }
-
-        publicKeyString = rsaPublicKey.toString();
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(RSA_ALGORITHM);
+        keyPairGenerator.initialize(KEY_SIZE, new SecureRandom());
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        PublicKey rsaPublicKey = keyPair.getPublic();
+        PrivateKey rsaPrivateKey = keyPair.getPrivate();
+        publicKeyString = Base64.getEncoder().encodeToString(rsaPublicKey.getEncoded());
+        mainLogger.info("RSA PublicKey prepared: {}", publicKeyString);
 
         decryptionCipher = Cipher.getInstance(RSA_ALGORITHM);
         decryptionCipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey);
@@ -122,5 +102,13 @@ public class DaemonMain {
 
     public static String getRSAPublicKey() {
         return publicKeyString;
+    }
+
+    public static String deriveKeyFormatted(String raw) {
+        return pbkdf2.deriveKeyFormatted(raw);
+    }
+
+    public static boolean verifyKeyFormatted(String formatted, String raw) {
+        return pbkdf2.verifyKeyFormatted(formatted, raw);
     }
 }
