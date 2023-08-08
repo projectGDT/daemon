@@ -20,6 +20,8 @@ dependencies {
     implementation("io.dropwizard.metrics:metrics-healthchecks:4.2.19")
     implementation("com.google.guava:guava:31.1-jre")
     implementation("de.rtner:PBKDF2:1.1.4")
+    implementation("org.apache.httpcomponents.core5:httpcore5:5.2.2")
+    implementation("ch.qos.logback:logback-classic:1.4.9")
 }
 
 tasks.test {
